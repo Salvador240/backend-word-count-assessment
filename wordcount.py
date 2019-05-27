@@ -57,6 +57,7 @@ def main():
     if len(sys.argv) != 3:
         print 'usage: python wordcount.py {--count | --topcount} file'
         sys.exit(1)
+        return
 
     option = sys.argv[1]
     filename = sys.argv[2]
