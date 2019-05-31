@@ -49,32 +49,41 @@ import sys
 
 
 def print_words(content):
-    words_count = {}
-    count = 0
     # print(content)
     words = content.lower().split()
-    # words.sort(reverse=True)
-    words = sorted(words)
+    words_count = {}
     for word in words:
         if word not in words_count:
             words_count[word] = 1
         else:
             words_count[word] += 1
-    
-    return words_count
 
-# def print_top(content):
-#     words_count = {}
-#     count = 0
-#     # print(content)
-#     words = content.split().sort(key=len, reverse=True)
-#     for word in words:
-#         if word not in words_count:
-#             words_count[word] = 1
-#         else:
-#             words_count[word] += 1
+    # return sorted(words_count.keys())
+    for word in sorted(words_count):
+	    print(word + ': ' + str(words_count[word]))
 
-#     return words_count
+def print_top(content):
+    words_count = {}
+    # print(content)
+    words = content.lower().split()
+    for word in words:
+        if word not in words_count:
+            words_count[word] = 1
+        else:
+            words_count[word] += 1
+
+    def keyfunction(k):
+        return words_count[k]
+
+    for key in sorted(words_count, key=keyfunction, reverse=True)[:20]:
+        print ("%s: %i" % (key, words_count[key]))
+
+
+    # top_twenty = sorted(words_count, key=lambda tup: tup[1], reverse=True)
+    # print(top_twenty)
+  
+
+    # return words_count
 
 
 ###
@@ -91,19 +100,19 @@ def main():
         return
 
     filename = sys.argv[1]
-    # option = sys.argv[2]
-    # if option == '--count':
-    #     print_words(filename)
-    # elif option == '--topcount':
-    #     print_top(filename)
-    # else:
-    #     print('unknown option: ' + option)
-    #     sys.exit(1)
+    option = sys.argv[2]
+    if option == '--count':
+        print_words(filename)
+    elif option == '--topcount':
+        print_top(filename)
+    else:
+        print('unknown option: ' + option)
+        sys.exit(1)
 
     with open(filename, "r") as filename1:
         file_contents = filename1.read()
         # print(filename_contents)
-        print(print_words(file_contents))
+        print(print_top(file_contents))
 
 
 if __name__ == '__main__':
